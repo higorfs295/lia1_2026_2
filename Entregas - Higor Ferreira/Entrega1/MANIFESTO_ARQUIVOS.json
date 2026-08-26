@@ -1,0 +1,71 @@
+{
+  "projeto": "Entrega 1 — NumPy, Pandas e confiabilidade de dados",
+  "gerado_em_utc": "2026-08-26T05:12:44.677670+00:00",
+  "arquivos": [
+    {
+      "arquivo": "d2.csv",
+      "bytes": 753110,
+      "sha256": "ccc10bd9c3852ca733d0ff02eb2e9b20e4280c1518ed7094b7fdcd75307531e5"
+    },
+    {
+      "arquivo": "d3.csv",
+      "bytes": 54781794,
+      "sha256": "956956c09c1764584fa08acd0f6876475626bcedcd6a6b1f8c492c2e9a2089ea"
+    },
+    {
+      "arquivo": "Entrega_1.1_Titanic_Calibracao.ipynb",
+      "bytes": 435343,
+      "sha256": "1220cc79bbd7c4e5d2327598924483aad84dcf374eef5db7e8fff61e2810e04c"
+    },
+    {
+      "arquivo": "Entrega_1.2_IoT_Proveniencia.ipynb",
+      "bytes": 198488,
+      "sha256": "e1ca9529eac6a36f62f44397aae439ffa994a34eba2aa345277bbe34f0207cc5"
+    },
+    {
+      "arquivo": "Entrega_1.3_RT_IoT2022_Baseline.ipynb",
+      "bytes": 476269,
+      "sha256": "fdb1811cd2a27919f2c2b4494760bc16c533945ae701d7d3e99de4cb9e613c8e"
+    },
+    {
+      "arquivo": "iris.csv",
+      "bytes": 3858,
+      "sha256": "9cc1c345c71bcc9b486b74cbf6063fa66f4bb5e0f603a4b3c3471ec2e5e8e355"
+    },
+    {
+      "arquivo": "LEIAME_PRIMEIRO.md",
+      "bytes": 5356,
+      "sha256": "e8686cf79819d4ed8f189918367f4f011ff6142967feaba078c0fe26f0adacaf"
+    },
+    {
+      "arquivo": "nucleo.py",
+      "bytes": 11744,
+      "sha256": "f37a1fa3650b2417064309bd61b0b922e809cebdfd6eadf5716b8d20c27d5bcb"
+    },
+    {
+      "arquivo": "RELATORIO_VALIDACAO.md",
+      "bytes": 2837,
+      "sha256": "1aebdfd5cc87f1a9dc3e13c81d2c6116e0784b44deef812fd243b8f635079f60"
+    },
+    {
+      "arquivo": "resultados/entrega_1_1.json",
+      "bytes": 857,
+      "sha256": "848612c2898a455aaf5d183b97565b1b5fbed46998545c57466f231f480a48c9"
+    },
+    {
+      "arquivo": "resultados/entrega_1_2.json",
+      "bytes": 809,
+      "sha256": "7ac38411113a4a6df12e68f2586f04398236af4d5b747b10dec3e607e2a7dcbe"
+    },
+    {
+      "arquivo": "resultados/entrega_1_3.json",
+      "bytes": 1196,
+      "sha256": "04de1caef67e028eabcdc71cc237f2bfbb3304c0ab66aeb1e599a31c4f529408"
+    },
+    {
+      "arquivo": "titanic.csv",
+      "bytes": 57018,
+      "sha256": "81787d320d7f7b03df935e91de8bd19e11d45c5bbcab86ef4d4a76dc91b7d4f2"
+    }
+  ]
+}

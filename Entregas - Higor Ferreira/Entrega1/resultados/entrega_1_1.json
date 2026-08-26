@@ -1,0 +1,39 @@
+{
+  "entrega": "1.1",
+  "dataset": "Titanic (seaborn-data)",
+  "md5": "56f29cc0b807",
+  "linhas": 891,
+  "colunas": 15,
+  "calibracao": "OK",
+  "duplicatas_linha_inteira": 107,
+  "duplicatas_chave_parcial": 137,
+  "vazamento": [
+    "alive"
+  ],
+  "age_ausentes_pct": 19.87,
+  "reducao_dispersao_por_imputacao_pct": 10.49,
+  "fator_teorico_confirmado": true,
+  "outliers_setosa_tipo7": 4,
+  "outliers_setosa_tipo1": 1,
+  "simpson_agregado": -0.1176,
+  "simpson_por_especie": [
+    0.7425,
+    0.5259,
+    0.4572
+  ],
+  "amplitude_classe_por_sexo": {
+    "female": 0.4681,
+    "male": 0.2334
+  },
+  "razao_classe_por_sexo": {
+    "female": 1.936,
+    "male": 2.723
+  },
+  "cobertura_faixa_etaria_pct": 80.13,
+  "convencoes": {
+    "quantil": "linear",
+    "ddof": 1,
+    "outlier": "1.5*IQR",
+    "corr": "pearson"
+  }
+}

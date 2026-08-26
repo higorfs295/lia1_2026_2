@@ -1,0 +1,47 @@
+{
+  "entrega": "1.3",
+  "dataset": "RT-IoT2022 (UCI ML Repository #942)",
+  "md5": "87ec8763e33f",
+  "linhas": 123117,
+  "colunas": 85,
+  "veredito_proveniencia": "real ou inconclusivo",
+  "sinais_de_sintetico": 0,
+  "features_informativas": 66,
+  "duplicatas": 0,
+  "classes": 12,
+  "desbalanceamento": 3380.7,
+  "acuracia_trivial_pct": 76.89,
+  "classes_criticas": {
+    "Wipro_bulb": 253,
+    "Metasploit_Brute_Force_SSH": 37,
+    "NMAP_FIN_SCAN": 28
+  },
+  "colunas_constantes": [
+    "bwd_URG_flag_count"
+  ],
+  "pares_colineares_r95": 52,
+  "assinatura_definicional": {
+    "feature": "fwd_URG_flag_count",
+    "classe": "NMAP_XMAS_TREE_SCAN",
+    "eta2": 0.998
+  },
+  "features_que_separam_dispositivos": 37,
+  "total_features_avaliadas": 80,
+  "metrica_dispersao": "QCD = (Q3-Q1)/(Q3+Q1) sobre flow_duration",
+  "qcd_por_dispositivo": {
+    "MQTT_Publish": 0.347,
+    "Thing_Speak": 0.934,
+    "Wipro_bulb": 0.998
+  },
+  "inflacao_zeros_idle_min": {
+    "MQTT_Publish": 0.05,
+    "Thing_Speak": 0.989,
+    "Wipro_bulb": 0.684
+  },
+  "convencoes": {
+    "quantil": "linear",
+    "ddof": 1,
+    "outlier": "1.5*IQR",
+    "corr": "pearson"
+  }
+}

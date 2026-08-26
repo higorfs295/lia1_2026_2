@@ -1,0 +1,37 @@
+{
+  "entrega": "1.2",
+  "dataset": "IoT Network Security and Energy (Kaggle, zara2099)",
+  "md5": "cd09503e4bec",
+  "linhas": 4000,
+  "colunas": 24,
+  "veredito": "sintetico",
+  "sinais_de_sintetico": 3,
+  "colunas_uniformes": [
+    15,
+    20
+  ],
+  "colunas_sem_outliers": [
+    20,
+    20
+  ],
+  "corr_max_entre_features": 0.0461,
+  "features_informativas": 1,
+  "duplicatas": 0,
+  "ausencias_totais": 0,
+  "vazamento": [
+    "LABEL"
+  ],
+  "proveniencia_declarada": [
+    "NF-BoT-IoT-v2",
+    "NF-CSE-CIC-IDS2018-v2",
+    "NF-ToN-IoT-v2"
+  ],
+  "validacao_falsos_positivos": 0,
+  "controle_tamanho_amostral": "veredito de D3 invariante a n=4.000 e n=1.000",
+  "convencoes": {
+    "quantil": "linear",
+    "ddof": 1,
+    "outlier": "1.5*IQR",
+    "corr": "pearson"
+  }
+}
