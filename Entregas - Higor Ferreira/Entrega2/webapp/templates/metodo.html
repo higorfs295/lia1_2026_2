@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% set pagina = 'metodo' %}
+{% block titulo %}Método{% endblock %}
+
+{% block conteudo %}
+<section class="hero-projeto pb-0" style="padding-top:170px">
+  <div class="container">
+    <div class="row"><div class="col-lg-8 mx-auto text-center">
+      <p class="chapeu">Como e por quê</p>
+      <h2 class="section-title">Método, decisões e limites</h2>
+      <p>As escolhas que mudam o resultado, e a lista honesta do que este projeto não sustenta.</p>
+    </div></div>
+  </div>
+</section>
+
+<!-- yolo26 -->
+<section class="section-md pt-0">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-10 mx-auto">
+        <p class="chapeu">Fundamentação</p>
+        <h3 class="mb-4">O que muda no YOLO26</h3>
+        <p>Três decisões de arquitetura alteram diretamente o código escrito em torno do modelo.</p>
+        <div class="row mt-4">
+          {% for c in yolo %}
+          <div class="col-md-4 mb-4"><div class="cartao">
+            <h4>{{ c.titulo }}</h4><p>{{ c.texto }}</p></div></div>
+          {% endfor %}
+        </div>
+        <div class="nota mt-2">
+          <strong>Verificado experimentalmente.</strong> A cabeça end-to-end
+          <strong>não aceita <code>augment=True</code></strong>: o Ultralytics emite
+          <code>Model does not support 'augment=True'</code> e volta para escala única.
+          Isso elimina a rota usual de estimativa de incerteza por aumento em tempo de teste —
+          daí a estabilidade por espelhamento e multiescala usada no laudo.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- síntese -->
+<section class="section-md bg-gray">
+  <div class="container">
+    <div class="row"><div class="col-lg-10 mx-auto">
+      <p class="chapeu">Dados sintéticos</p>
+      <h3 class="mb-4">A matemática do copy-paste</h3>
+      <div class="row">
+        {% for c in sintese %}
+        <div class="col-md-6 mb-4"><div class="cartao">
+          <h4>{{ c.titulo }}</h4><p>{{ c.texto }}</p>
+          <p class="mt-3 mb-0"><code>{{ c.formula }}</code></p></div></div>
+        {% endfor %}
+      </div>
+      <div class="col-12 px-0 mt-3">
+        {% if figuras.artefatos %}<div class="figura">
+          <img src="{{ url_for('static', filename='projeto/figuras/' ~ figuras.artefatos) }}" alt="Artefatos de RM">
+          <p class="legenda">Figura 5 — Os quatro artefatos de ressonância simulados a partir do modelo
+          físico, em três severidades. Nenhum deles entra no treino: existem só para medir robustez.</p>
+        </div>
+      </div>{% endif %}
+    </div></div>
+  </div>
+</section>
+
+<!-- orçamento -->
+<section class="section-md">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-5 mb-4 mb-lg-0">
+        <p class="chapeu">Treino</p>
+        <h3 class="mb-4">Orçamento de tempo imposto</h3>
+        <p>O Colab sorteia o hardware. Um notebook que promete trinta minutos com um número fixo
+        de épocas não promete nada. O argumento <code>time=</code> do Ultralytics sobrescreve
+        <code>epochs</code>: o número de épocas vira <em>saída</em> do experimento e o relógio,
+        que é o que o usuário sente, fica fixo.</p>
+        <p class="mb-0">Verificado: com <code>epochs=2, time=0.05</code>, o treinador reprogramou
+        a execução para 55 épocas.</p>
+      </div>
+      <div class="col-lg-7">
+        <div class="tabela-projeto table-responsive">
+          <table class="table mb-0">
+            <thead><tr><th>Argumento</th><th>Valor</th><th>Justificativa</th></tr></thead>
+            <tbody>
+              {% for a in treino %}
+              <tr><td><code>{{ a.arg }}</code></td><td class="num">{{ a.valor }}</td><td>{{ a.motivo }}</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- avaliação -->
+<section class="section-md bg-gray">
+  <div class="container">
+    <div class="row"><div class="col-lg-10 mx-auto">
+      <p class="chapeu">Avaliação</p>
+      <h3 class="mb-4">Seis perguntas no lugar de um número</h3>
+      <p class="mb-5">mAP é uma média de médias: diz <em>quanto</em>, nunca <em>onde</em> nem
+      <em>por quê</em>. O protocolo troca um número por seis perguntas independentes.</p>
+      <div class="row">
+        {% for e in eixos %}
+        <div class="col-md-6 mb-4">
+          <div class="d-flex feature-item">
+            <div><i class="{{ e.icone }} feature-icon mr-4"></i></div>
+            <div><h4>{{ e.pergunta }}</h4><p>{{ e.instrumento }}</p></div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div></div>
+  </div>
+</section>
+
+<!-- limitações -->
+<section class="section-md">
+  <div class="container">
+    <div class="row"><div class="col-lg-9 mx-auto">
+      <p class="chapeu">Honestidade</p>
+      <h3 class="mb-4">O que este projeto não prova</h3>
+      <p class="mb-5">A parte mais importante de um relatório técnico é a lista do que ele não sustenta.</p>
+      <ol class="lista-limites">
+        {% for l in limites %}
+        <li><strong>{{ l.titulo }}</strong> {{ l.texto }}</li>
+        {% endfor %}
+      </ol>
+    </div></div>
+  </div>
+</section>
+
+<!-- referências -->
+<section class="section-sm pb-5">
+  <div class="container">
+    <div class="row"><div class="col-lg-9 mx-auto">
+      <h4 class="mb-4">Referências</h4>
+      <ul class="list-unstyled" style="font-size:15px;color:#4d546f;line-height:2">
+        {% for r in referencias %}<li>{{ r }}</li>{% endfor %}
+      </ul>
+    </div></div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="utf-8">
+  <title>{% block titulo %}Neuro26{% endblock %} · Detecção e laudo de tumor cerebral</title>
+
+  <!-- mobile responsive meta -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  {% if completo %}
+  <!-- ** Plugins que acompanham o template Dtox ** -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='dtox/plugins/bootstrap/bootstrap.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='dtox/plugins/themify-icons/themify-icons.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='dtox/plugins/aos/aos.css') }}">
+  <!-- Folha principal do Dtox -->
+  <link href="{{ url_for('static', filename='dtox/css/style.css') }}" rel="stylesheet">
+  {% else %}
+  <!-- Modo enxuto: subconjunto do Bootstrap e do style.css que vem no próprio Dtox -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700">
+  <link rel="stylesheet" href="{{ url_for('static', filename='projeto/estilos.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/themify-icons/0.1.2/css/themify-icons.min.css">
+  {% endif %}
+  <!-- Extensões do projeto, escritas sobre as variáveis do Dtox -->
+  <link href="{{ url_for('static', filename='projeto/projeto.css') }}" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- navigation -->
+<section class="fixed-top navigation">
+  <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <a class="navbar-brand marca" href="{{ url_for('inicio') }}">neuro<span>26</span></a>
+      <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navbar"
+        aria-controls="navbar" aria-expanded="false" aria-label="Alternar navegação">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse text-center" id="navbar">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item"><a class="nav-link {{ 'active' if pagina=='inicio' }}" href="{{ url_for('inicio') }}">Início</a></li>
+          <li class="nav-item"><a class="nav-link {{ 'active' if pagina=='pipeline' }}" href="{{ url_for('inicio') }}#pipeline">Pipeline</a></li>
+          <li class="nav-item"><a class="nav-link {{ 'active' if pagina=='dados' }}" href="{{ url_for('inicio') }}#dados">Dados</a></li>
+          <li class="nav-item"><a class="nav-link {{ 'active' if pagina=='resultados' }}" href="{{ url_for('resultados') }}">Resultados</a></li>
+          <li class="nav-item"><a class="nav-link {{ 'active' if pagina=='metodo' }}" href="{{ url_for('metodo') }}">Método</a></li>
+        </ul>
+        <a href="{{ url_for('laudo') }}" class="btn btn-primary ml-lg-3 primary-shadow">Analisar exame</a>
+      </div>
+    </nav>
+  </div>
+</section>
+<!-- /navigation -->
+
+{% block conteudo %}{% endblock %}
+
+<!-- aviso legal -->
+<section class="section-sm pt-0">
+  <div class="container">
+    <div class="aviso-legal rounded d-flex">
+      <i class="ti-alert mr-3"></i>
+      <p class="mb-0"><strong>Aviso.</strong> Exercício acadêmico de visão computacional.
+      Este sistema <strong>não é dispositivo médico</strong>, não possui validação clínica e
+      não deve orientar nenhuma decisão diagnóstica. Os rótulos <code>negative</code> e
+      <code>positive</code> são convenção de anotação de um conjunto de dados público,
+      não diagnóstico verificado.</p>
+    </div>
+  </div>
+</section>
+
+<!-- footer -->
+<footer class="footer-section footer"
+        {% if completo %}style="background-image: url({{ url_for('static', filename='dtox/images/backgrounds/footer-bg.png') }});"{% endif %}>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-4 text-center text-lg-left mb-4 mb-lg-0">
+        <a class="marca marca-rodape" href="{{ url_for('inicio') }}">neuro<span>26</span></a>
+        <p class="mb-0 rodape-nota">Projeto final · Visão computacional · EMC/UFG</p>
+      </div>
+      <nav class="col-lg-8 align-self-center mb-4">
+        <ul class="list-inline text-lg-right text-center footer-menu">
+          <li class="list-inline-item"><a href="{{ url_for('inicio') }}">Início</a></li>
+          <li class="list-inline-item"><a href="{{ url_for('laudo') }}">Laudo</a></li>
+          <li class="list-inline-item"><a href="{{ url_for('resultados') }}">Resultados</a></li>
+          <li class="list-inline-item"><a href="{{ url_for('metodo') }}">Método</a></li>
+        </ul>
+      </nav>
+      <nav class="col-12">
+        <ul class="list-inline text-lg-right text-center social-icon">
+          <li class="list-inline-item"><a class="black" href="https://github.com/higorfs295"><i class="ti-github"></i></a></li>
+          <li class="list-inline-item"><a class="linkedin" href="#"><i class="ti-linkedin"></i></a></li>
+        </ul>
+        <p class="text-center text-lg-right creditos">
+          Interface construída sobre o template <a href="https://themefisher.com/">Dtox</a> (Themefisher) ·
+          Detector <a href="https://docs.ultralytics.com/models/yolo26">Ultralytics YOLO26</a> (AGPL-3.0)
+        </p>
+      </nav>
+    </div>
+  </div>
+</footer>
+<!-- /footer -->
+
+{% if completo %}
+<script src="{{ url_for('static', filename='dtox/plugins/jQuery/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='dtox/plugins/bootstrap/bootstrap.min.js') }}"></script>
+<script src="{{ url_for('static', filename='dtox/plugins/aos/aos.js') }}"></script>
+{% endif %}
+<script src="{{ url_for('static', filename='projeto/projeto.js') }}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

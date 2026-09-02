@@ -1,0 +1,291 @@
+{
+  "perfil": "teste",
+  "config": {
+    "modelo": "yolo26n.pt",
+    "imgsz": 320,
+    "lote": 4,
+    "orcamento_total_min": 30.0,
+    "orcamento_treino_min": 1.0,
+    "epocas_teto": 3,
+    "sementes": 42,
+    "n_sinteticas": 20,
+    "usar_sinteticas": true,
+    "recall_minimo_triagem": 0.85,
+    "iou_consolidacao": 0.55,
+    "conf_coleta": 0.05,
+    "artefatos_amostra": 8,
+    "severidades": [
+      1,
+      3
+    ],
+    "device": "cpu",
+    "raiz": "/home/claude/proj/projeto"
+  },
+  "dataset": {
+    "particoes": [
+      {
+        "particao": "treino",
+        "imagens": 718,
+        "caixas": 752,
+        "negative": 409,
+        "positive": 343,
+        "sem_caixa": 1,
+        "geometrias": 9,
+        "geometria_dominante": [
+          512,
+          512
+        ]
+      },
+      {
+        "particao": "interno",
+        "imagens": 223,
+        "caixas": 241,
+        "negative": 154,
+        "positive": 87,
+        "sem_caixa": 0,
+        "geometrias": 2,
+        "geometria_dominante": [
+          512,
+          512
+        ]
+      },
+      {
+        "particao": "externo",
+        "imagens": 175,
+        "caixas": 173,
+        "negative": 28,
+        "positive": 145,
+        "sem_caixa": 14,
+        "geometrias": 1,
+        "geometria_dominante": [
+          192,
+          256
+        ]
+      }
+    ],
+    "sinteticas": 20,
+    "ood_medical_pills": 115
+  },
+  "treino": {
+    "pasta": "/home/claude/proj/projeto/runs/yolo26_teste",
+    "epocas_concluidas": 1
+  },
+  "metricas": {
+    "interno": {
+      "map50": 0.1612218737791134,
+      "map50_95": 0.0919349302712915,
+      "por_iou": {
+        "0.5": 0.1612218737791134,
+        "0.55": 0.1457476939461566,
+        "0.6": 0.1457476939461566,
+        "0.65": 0.14273561024441772,
+        "0.7": 0.128095394205695,
+        "0.75": 0.09403260711307358,
+        "0.8": 0.06261586309157881,
+        "0.85": 0.03621905593166112,
+        "0.9": 0.002933510455062179,
+        "0.95": 0.0
+      }
+    },
+    "externo": {
+      "map50": 0.17013588095697135,
+      "map50_95": 0.09842446035837407,
+      "por_iou": {
+        "0.5": 0.17013588095697135,
+        "0.55": 0.1600074374765293,
+        "0.6": 0.1600074374765293,
+        "0.65": 0.15735004687358514,
+        "0.7": 0.13915633157890045,
+        "0.75": 0.10734678938747161,
+        "0.8": 0.056096442154934506,
+        "0.85": 0.02808975576226819,
+        "0.9": 0.0060544819165508825,
+        "0.95": 0.0
+      }
+    },
+    "ap_por_classe": {
+      "negative": 0.15248619010562378,
+      "positive": 0.16995755745260305
+    },
+    "ece": 0.3661105364678413,
+    "tau_operacional": 0.05,
+    "ponto_interno": {
+      "limiar": 0.05,
+      "TP": 62,
+      "FP": 65,
+      "FN": 179,
+      "precisao": 0.4881889763779528,
+      "recall": 0.2572614107883817,
+      "f1": 0.33695652173913043
+    },
+    "ponto_externo": {
+      "limiar": 0.05,
+      "TP": 52,
+      "FP": 99,
+      "FN": 121,
+      "precisao": 0.3443708609271523,
+      "recall": 0.30057803468208094,
+      "f1": 0.32098765432098764
+    },
+    "queda_mAP50_dominio_pct": -5.529030874601326
+  },
+  "erros": {
+    "tp": 62,
+    "erros": {
+      "classificacao": 48,
+      "localizacao": 4,
+      "cls+loc": 7,
+      "duplicata": 0,
+      "fundo": 6,
+      "nao_detectado": 179
+    },
+    "total_fp": 65
+  },
+  "robustez": {
+    "ruido_riciano": {
+      "0": 0.26666666666666666,
+      "1": 0.3666666666666667,
+      "3": 0.26666666666666666
+    },
+    "campo_de_bias": {
+      "0": 0.26666666666666666,
+      "1": 0.26666666666666666,
+      "3": 0.26666666666666666
+    },
+    "ghosting": {
+      "0": 0.26666666666666666,
+      "1": 0.2833333333333333,
+      "3": 0.16666666666666666
+    },
+    "gibbs": {
+      "0": 0.26666666666666666,
+      "1": 0.26666666666666666,
+      "3": 0.16666666666666666
+    }
+  },
+  "ood": {
+    "imagens": 115,
+    "imagens_com_alarme": 40,
+    "taxa_alarme_falso": 0.34782608695652173,
+    "caixas_espurias": 52,
+    "caixas_por_imagem": 0.45217391304347826,
+    "confianca_media": 0.07414769331136575,
+    "confianca_maxima": 0.2148156613111496
+  },
+  "tempo": {
+    "total_min": 1.8390785654385884,
+    "orcamento_min": 30.0,
+    "etapas": [
+      {
+        "etapa": "setup do ambiente",
+        "segundos": 2.288818359375e-05,
+        "acumulado": 2.288818359375e-05
+      },
+      {
+        "etapa": "carga do modelo pré-treinado",
+        "segundos": 1.0948786735534668,
+        "acumulado": 1.0949015617370605
+      },
+      {
+        "etapa": "download do dataset primário",
+        "segundos": 1.0007166862487793,
+        "acumulado": 2.09561824798584
+      },
+      {
+        "etapa": "inventário do dataset",
+        "segundos": 0.08500957489013672,
+        "acumulado": 2.1806278228759766
+      },
+      {
+        "etapa": "particionamento por protocolo",
+        "segundos": 0.613217830657959,
+        "acumulado": 2.7938456535339355
+      },
+      {
+        "etapa": "análise exploratória (3 figuras)",
+        "segundos": 1.2031481266021729,
+        "acumulado": 3.9969937801361084
+      },
+      {
+        "etapa": "download do controle negativo",
+        "segundos": 0.8649699687957764,
+        "acumulado": 4.861963748931885
+      },
+      {
+        "etapa": "baseline zero-shot COCO",
+        "segundos": 0.21711993217468262,
+        "acumulado": 5.079083681106567
+      },
+      {
+        "etapa": "síntese de lesões (copy-paste)",
+        "segundos": 0.4912872314453125,
+        "acumulado": 5.57037091255188
+      },
+      {
+        "etapa": "simulação de artefatos de RM",
+        "segundos": 1.9355061054229736,
+        "acumulado": 7.5058770179748535
+      },
+      {
+        "etapa": "montagem do conjunto de treino",
+        "segundos": 0.5010311603546143,
+        "acumulado": 8.006908178329468
+      },
+      {
+        "etapa": "treino YOLO26",
+        "segundos": 84.20566940307617,
+        "acumulado": 92.21257758140564
+      },
+      {
+        "etapa": "figuras de treino",
+        "segundos": 0.35503315925598145,
+        "acumulado": 92.56761074066162
+      },
+      {
+        "etapa": "coleta de predições (interno + externo)",
+        "segundos": 7.570539236068726,
+        "acumulado": 100.13814997673035
+      },
+      {
+        "etapa": "curvas PR e ponto de operação",
+        "segundos": 0.3419053554534912,
+        "acumulado": 100.48005533218384
+      },
+      {
+        "etapa": "análise de calibração",
+        "segundos": 0.27855372428894043,
+        "acumulado": 100.75860905647278
+      },
+      {
+        "etapa": "matriz de confusão e taxonomia de erros",
+        "segundos": 0.2419877052307129,
+        "acumulado": 101.00059676170349
+      },
+      {
+        "etapa": "validação externa (domain shift)",
+        "segundos": 0.2930467128753662,
+        "acumulado": 101.29364347457886
+      },
+      {
+        "etapa": "robustez + controle negativo OOD",
+        "segundos": 5.137621641159058,
+        "acumulado": 106.43126511573792
+      },
+      {
+        "etapa": "inspeção qualitativa",
+        "segundos": 1.1439518928527832,
+        "acumulado": 107.5752170085907
+      },
+      {
+        "etapa": "laudos em lote",
+        "segundos": 0.892988920211792,
+        "acumulado": 108.46820592880249
+      },
+      {
+        "etapa": "construção da interface web",
+        "segundos": 1.8765079975128174,
+        "acumulado": 110.34471392631531
+      }
+    ]
+  }
+}

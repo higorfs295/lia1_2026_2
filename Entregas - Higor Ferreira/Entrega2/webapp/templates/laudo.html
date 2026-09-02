@@ -1,0 +1,223 @@
+{% extends "base.html" %}
+{% set pagina = 'laudo' %}
+{% block titulo %}Laudo{% endblock %}
+
+{% block conteudo %}
+<section class="hero-projeto pb-0" style="padding-top:170px">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto text-center">
+        <p class="chapeu">Do tensor ao laudo</p>
+        <h2 class="section-title">Analisar um exame</h2>
+        <p>Envie um corte de ressonância — ou escolha um dos exemplos do conjunto de validação —
+        e ajuste o limiar de confiança τ. Todo o resto do laudo é calculado a partir da máscara
+        intracraniana e das caixas detectadas.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-md pt-0">
+  <div class="container">
+
+    {% if not modelo_pronto %}
+    <div class="row mb-5"><div class="col-12">
+      <div class="aviso-legal rounded d-flex">
+        <i class="ti-info-alt mr-3"></i>
+        <p class="mb-0"><strong>Modelo não carregado.</strong> A aplicação está no ar, mas nenhum
+        checkpoint foi informado. Rode a aplicação com <code>--pesos caminho/para/best.pt</code>
+        ou defina a variável de ambiente <code>NEURO26_PESOS</code>. A partir do notebook isso
+        é feito automaticamente na seção 8.</p>
+      </div>
+    </div></div>
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data" action="{{ url_for('laudo') }}" id="form-laudo">
+    <div class="row">
+      <!-- coluna de entrada -->
+      <div class="col-lg-5 mb-4">
+        <div class="visor">
+          <div class="quadro {{ '' if laudo else 'sem-imagem' }}">
+            {% if laudo %}
+              <img src="{{ url_for('arquivo_saida', nome=anotada) }}" alt="Detecções">
+            {% else %}
+              <div class="vazio"><i class="ti-image"></i>
+                <p>Nenhuma imagem analisada ainda</p></div>
+            {% endif %}
+          </div>
+
+          <div class="zona-envio mt-4" id="zona">
+            <i class="ti-cloud-up"></i>
+            <p><strong>Clique ou arraste</strong> um corte de RM em JPG ou PNG</p>
+            <p class="mt-2 mb-0" id="nome-arquivo" style="font-size:14px;color:#008dec"></p>
+            <input type="file" name="imagem" id="imagem" accept="image/*" hidden>
+          </div>
+
+          {% if exemplos %}
+          <p class="mt-4 mb-2" style="font-size:14px;color:#4d546f">Ou use um exemplo do conjunto interno:</p>
+          <div class="d-flex flex-wrap" style="gap:10px">
+            {% for e in exemplos %}
+            <label class="mb-0">
+              <input type="radio" name="exemplo" value="{{ e }}" hidden
+                     {{ 'checked' if exemplo_ativo == e }}>
+              <img class="miniatura {{ 'ativa' if exemplo_ativo == e }}"
+                   src="{{ url_for('miniatura', nome=e) }}" alt="{{ e }}" title="{{ e }}">
+            </label>
+            {% endfor %}
+          </div>
+          {% endif %}
+
+          <div class="controle-limiar">
+            <div class="cabecalho">
+              <span>Limiar de confiança τ</span><b id="tau-valor">{{ '%.2f'|format(tau) }}</b>
+            </div>
+            <input type="range" class="faixa" name="tau" id="tau" min="0.05" max="0.95"
+                   step="0.01" value="{{ tau }}">
+            <div class="cabecalho mt-2" style="font-size:13px">
+              <span>mais achados, mais alarme falso</span>
+              <span>menos achados, mais lesão perdida</span>
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col-6">
+              <label style="font-size:13px;color:#4d546f">IoU de consolidação</label>
+              <input type="number" name="iou" class="form-control" step="0.05" min="0.3" max="0.9"
+                     value="{{ iou }}">
+            </div>
+            <div class="col-6">
+              <label style="font-size:13px;color:#4d546f">Escala mm/pixel (DICOM)</label>
+              <input type="number" name="escala" class="form-control" step="0.0001" min="0"
+                     placeholder="opcional" value="{{ escala or '' }}">
+            </div>
+          </div>
+          <div class="custom-control custom-checkbox mt-3">
+            <input type="checkbox" class="custom-control-input" id="consist" name="consistencia"
+                   {{ 'checked' if consistencia }}>
+            <label class="custom-control-label" for="consist" style="font-size:14px;color:#4d546f">
+              Medir estabilidade (espelhamento + multiescala)</label>
+          </div>
+
+          <button type="submit" class="btn btn-primary primary-shadow btn-block mt-4"
+                  {{ 'disabled' if not modelo_pronto }}>Gerar laudo</button>
+        </div>
+      </div>
+
+      <!-- coluna do laudo -->
+      <div class="col-lg-7">
+        <div class="cartao">
+          {% if laudo %}
+            <div class="laudo-cabecalho">
+              <div>
+                <h4 class="mb-1">Laudo automático <small style="color:#4d546f;font-size:14px">v{{ laudo.versao_laudo }}</small></h4>
+                <p class="mb-0" style="font-size:14px;color:#4d546f">{{ laudo.arquivo }} · {{ laudo.gerado_em }}</p>
+              </div>
+              <span class="etiqueta {{ 'positivo' if laudo.resumo.n_achados else 'neutro' }}">
+                {{ laudo.resumo.veredito }}</span>
+            </div>
+
+            <div class="linha-campo"><span class="rot">Área intracraniana estimada</span>
+              <span class="val">{{ '{:,}'.format(laudo.imagem.area_intracraniana_px2).replace(',','.') }} px²</span></div>
+            <div class="linha-campo"><span class="rot">Achados acima de τ = {{ '%.2f'|format(laudo.parametros.limiar_confianca) }}</span>
+              <span class="val">{{ laudo.resumo.n_achados }}</span></div>
+            <div class="linha-campo"><span class="rot">Confiança máxima</span>
+              <span class="val">{{ '%.3f'|format(laudo.resumo.confianca_maxima) }}</span></div>
+            <div class="linha-campo"><span class="rot">Carga lesional</span>
+              <span class="val">{{ laudo.resumo.carga_lesional_pct_encefalo }} % do encéfalo</span></div>
+            <div class="linha-campo"><span class="rot">Classes detectadas</span>
+              <span class="val">{{ laudo.resumo.classes_detectadas|join(', ') or '—' }}</span></div>
+
+            {% for a in laudo.achados %}
+            <div class="achado">
+              <div class="topo">
+                <span class="cod">{{ a.id }}</span>
+                <h4 class="mb-0">{{ a.achado }}</h4>
+                <span style="color:#4d546f">confiança {{ '%.3f'|format(a.confianca) }}</span>
+              </div>
+              <div class="met">
+                <div><span>área</span><b>{{ a.area_px2|round|int }} px²</b></div>
+                <div><span>% do encéfalo</span><b>{{ a.area_relativa_encefalo_pct }} %</b></div>
+                <div><span>Ø equivalente</span><b>{{ a.diametro_equivalente_px|round|int }} px</b></div>
+                {% if a.diametro_equivalente_mm is defined %}
+                <div><span>Ø equivalente</span><b>{{ a.diametro_equivalente_mm }} mm</b></div>
+                {% endif %}
+                <div><span>razão de aspecto</span><b>{{ a.razao_aspecto }}</b></div>
+                <div><span>lateralidade</span><b style="font-size:14px">{{ a.lateralidade_imagem }}</b></div>
+                <div><span>Δ linha média</span><b>{{ a.deslocamento_da_linha_media_px }} px</b></div>
+                <div><span>contraste relativo</span><b>{{ a.contraste_relativo }}×</b></div>
+                {% if a.estabilidade_iou is defined %}
+                <div style="min-width:170px"><span>estabilidade</span><b>{{ a.estabilidade_iou }}</b>
+                  <div class="barra-estab"><i style="width:{{ (a.estabilidade_iou*100)|round|int }}%"></i></div></div>
+                {% endif %}
+              </div>
+            </div>
+            {% endfor %}
+
+            <div class="d-flex flex-wrap mt-4" style="gap:12px">
+              <a class="btn btn-secondary" href="{{ url_for('baixar_laudo', nome=json_nome) }}">Baixar JSON</a>
+              <a class="btn btn-primary primary-shadow" href="{{ url_for('laudo') }}">Nova análise</a>
+            </div>
+
+            <div class="nota mt-4">
+              <strong>Sobre a estabilidade.</strong> A cabeça end-to-end do YOLO26 não aceita
+              <code>augment=True</code>, então a incerteza é estimada repetindo a inferência com a
+              imagem espelhada e em outra escala e medindo o IoU médio entre as detecções.
+              É concordância entre vistas, <strong>não</strong> uma probabilidade calibrada.
+            </div>
+          {% else %}
+            <div class="text-center" style="padding:60px 20px">
+              <i class="ti-clipboard" style="font-size:60px;color:#dcebf4"></i>
+              <h4 class="mt-4">O laudo aparece aqui</h4>
+              <p class="mb-0">Escolha uma imagem à esquerda, ajuste o limiar e clique em
+              <strong>Gerar laudo</strong>. O sistema calcula área, diâmetro equivalente,
+              lateralidade, contraste relativo e estabilidade de cada achado.</p>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    </form>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function () {
+  var zona = document.getElementById('zona'),
+      campo = document.getElementById('imagem'),
+      nome  = document.getElementById('nome-arquivo'),
+      minis = document.querySelectorAll('.miniatura'),
+      radios = document.querySelectorAll('input[name=exemplo]');
+
+  zona.addEventListener('click', function () { campo.click(); });
+  campo.addEventListener('change', function () {
+    nome.textContent = campo.files.length ? campo.files[0].name : '';
+    minis.forEach(function (m) { m.classList.remove('ativa'); });
+    radios.forEach(function (r) { r.checked = false; });
+  });
+  ['dragenter', 'dragover'].forEach(function (e) {
+    zona.addEventListener(e, function (ev) { ev.preventDefault(); zona.classList.add('ativa'); });
+  });
+  ['dragleave', 'drop'].forEach(function (e) {
+    zona.addEventListener(e, function (ev) { ev.preventDefault(); zona.classList.remove('ativa'); });
+  });
+  zona.addEventListener('drop', function (ev) {
+    campo.files = ev.dataTransfer.files;
+    nome.textContent = campo.files.length ? campo.files[0].name : '';
+  });
+  minis.forEach(function (m) {
+    m.addEventListener('click', function () {
+      minis.forEach(function (o) { o.classList.remove('ativa'); });
+      m.classList.add('ativa');
+      campo.value = ''; nome.textContent = '';
+    });
+  });
+
+  var tau = document.getElementById('tau'), rot = document.getElementById('tau-valor');
+  tau.addEventListener('input', function () {
+    rot.textContent = Number(tau.value).toFixed(2).replace('.', ',');
+  });
+})();
+</script>
+{% endblock %}

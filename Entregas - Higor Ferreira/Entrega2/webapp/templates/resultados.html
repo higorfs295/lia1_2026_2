@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+{% set pagina = 'resultados' %}
+{% block titulo %}Resultados{% endblock %}
+
+{% block conteudo %}
+<section class="hero-projeto pb-0" style="padding-top:170px">
+  <div class="container">
+    <div class="row"><div class="col-lg-8 mx-auto text-center">
+      <p class="chapeu">Prestação de contas</p>
+      <h2 class="section-title">Resultados da execução</h2>
+      <p>Esta página não inventa métrica nenhuma. Ela lê o <code>resultados.json</code>
+      que o notebook grava ao final da execução — a fonte única de todos os números do projeto.</p>
+    </div></div>
+  </div>
+</section>
+
+<section class="section-md pt-0">
+  <div class="container">
+    {% if not dados %}
+      <div class="row"><div class="col-lg-8 mx-auto">
+        <div class="zona-envio" id="zona-res">
+          <i class="ti-upload"></i>
+          <p><strong>Envie o resultados.json</strong> gerado pelo notebook</p>
+          <form method="post" enctype="multipart/form-data" action="{{ url_for('resultados') }}" id="form-res">
+            <input type="file" name="arquivo" id="arq-res" accept=".json,application/json" hidden>
+          </form>
+        </div>
+        <div class="nota mt-4">
+          Ao rodar a aplicação a partir do notebook, o arquivo é encontrado sozinho.
+          Fora do Colab, informe o caminho com <code>--resultados caminho/resultados.json</code>.
+        </div>
+      </div></div>
+    {% else %}
+      <!-- indicadores -->
+      <div class="row mb-5">
+        {% for k in kpis %}
+        <div class="col-lg-3 col-md-4 col-6 mb-4" data-aos="fade-up" data-aos-delay="{{ loop.index0*50 }}">
+          <div class="indicador {{ 'acento' if k.acento }}">
+            <p class="rotulo">{{ k.rotulo }}</p>
+            <div class="valor">{{ k.valor }}</div>
+            <p class="apoio">{{ k.apoio }}</p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <!-- domínios -->
+      <div class="row mb-5">
+        <div class="col-lg-6 mb-4">
+          <div class="cartao">
+            <p class="chapeu">Generalização</p>
+            <h4 class="mb-4">Interno contra externo</h4>
+            {% for b in barras_dominio %}
+            <div class="mb-3">
+              <div class="d-flex justify-content-between" style="font-size:14px;color:#4d546f">
+                <span>{{ b.rotulo }}</span><span class="val">{{ b.texto }}</span></div>
+              <div class="barra-estab" style="height:10px">
+                <i style="width:{{ b.pct }}%; background-image:{{ b.gradiente }}"></i></div>
+            </div>
+            {% endfor %}
+            <p class="mb-0 mt-4" style="font-size:15px">
+              A diferença entre as duas partições é o número mais informativo do relatório:
+              ela estima o que aconteceria se o sistema recebesse imagens de outro aparelho.</p>
+          </div>
+        </div>
+        <div class="col-lg-6 mb-4">
+          <div class="cartao">
+            <p class="chapeu">Anatomia do erro</p>
+            <h4 class="mb-4">Onde o modelo falha</h4>
+            {% for e in erros %}
+            <div class="mb-3">
+              <div class="d-flex justify-content-between" style="font-size:14px;color:#4d546f">
+                <span>{{ e.rotulo }}</span><span class="val">{{ e.valor }}</span></div>
+              <div class="barra-estab" style="height:10px">
+                <i style="width:{{ e.pct }}%; background:{{ e.cor }}"></i></div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <!-- robustez -->
+      {% if robustez %}
+      <div class="row mb-5"><div class="col-12">
+        <div class="tabela-projeto table-responsive">
+          <table class="table mb-0">
+            <thead><tr><th>Artefato de RM</th>
+              {% for s in severidades %}<th class="num">{{ 'original' if s == 0 else 'severidade ' ~ s }}</th>{% endfor %}
+              <th class="num">queda</th></tr></thead>
+            <tbody>
+              {% for r in robustez %}
+              <tr><td><strong>{{ r.nome }}</strong></td>
+                {% for v in r.valores %}<td class="num">{{ v }}</td>{% endfor %}
+                <td class="num">{{ r.queda }}</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div></div>
+      {% endif %}
+
+      <!-- orçamento -->
+      <div class="row">
+        <div class="col-lg-7 mb-4">
+          <div class="cartao">
+            <p class="chapeu">Orçamento</p>
+            <h4 class="mb-4">Para onde foram os minutos</h4>
+            {% for t in tempos %}
+            <div class="mb-3">
+              <div class="d-flex justify-content-between" style="font-size:14px;color:#4d546f">
+                <span>{{ t.etapa }}</span><span class="val">{{ t.texto }}</span></div>
+              <div class="barra-estab" style="height:10px">
+                <i style="width:{{ t.pct }}%; background:{{ t.cor }}"></i></div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="col-lg-5 mb-4">
+          <div class="cartao h-100">
+            <p class="chapeu">Configuração</p>
+            <h4 class="mb-4">O que produziu estes números</h4>
+            {% for c in config %}
+            <div class="linha-campo"><span class="rot">{{ c.k }}</span><span class="val">{{ c.v }}</span></div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      {% if figuras_diagnostico %}
+      <div class="row mt-5">
+        <div class="col-12 mb-4">
+          <p class="chapeu">Diagnóstico</p>
+          <h4>As figuras desta execução</h4>
+        </div>
+        {% for chave, titulo, arquivo in figuras_diagnostico %}
+        <div class="col-lg-6 mb-4">
+          <div class="figura">
+            <img src="{{ url_for('static', filename='projeto/figuras/' ~ arquivo) }}" alt="{{ titulo }}">
+            <p class="legenda">{{ titulo }}</p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <div class="row mt-4"><div class="col-12">
+        <div class="nota">
+          <strong>Como ler estes valores.</strong> Se a curva de métricas por época ainda subia quando
+          o relógio parou, o número reportado é um <strong>piso</strong>, não o teto do modelo.
+          E a taxa de alarme falso fora do domínio é uma métrica de segurança, não de desempenho:
+          ela mede com que frequência o sistema entregaria laudo positivo para uma entrada que
+          jamais deveria ter chegado até ele.
+        </div>
+      </div></div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+{% if not dados %}
+<script>
+(function(){
+  var z=document.getElementById('zona-res'), a=document.getElementById('arq-res'),
+      f=document.getElementById('form-res');
+  z.addEventListener('click', function(){ a.click(); });
+  a.addEventListener('change', function(){ if(a.files.length) f.submit(); });
+  ['dragenter','dragover'].forEach(function(e){z.addEventListener(e,function(ev){ev.preventDefault();z.classList.add('ativa');});});
+  ['dragleave','drop'].forEach(function(e){z.addEventListener(e,function(ev){ev.preventDefault();z.classList.remove('ativa');});});
+  z.addEventListener('drop', function(ev){ a.files=ev.dataTransfer.files; if(a.files.length) f.submit(); });
+})();
+</script>
+{% endif %}
+{% endblock %}

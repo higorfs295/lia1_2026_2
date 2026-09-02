@@ -1,0 +1,191 @@
+/*!------------------------------------------------------------------
+[EXTENSÕES DO PROJETO]
+Escritas sobre o template Dtox. Todas as cores, sombras, raios e
+gradientes abaixo são os do próprio template (scss/_variables.scss):
+  $primary-color #008dec · $text-color #4d546f · $text-color-dark #091337
+  $gray #f2f3f5 · $primary-gradient · $secondary-gradient · $primary-shadow
+-------------------------------------------------------------------*/
+
+/* -------------------------------------------------- marca ------- */
+.marca{
+  font-family:"Poppins",sans-serif; font-weight:700; font-size:30px;
+  color:#091337; letter-spacing:-.02em; line-height:1;
+}
+.marca:hover{color:#091337; text-decoration:none}
+.marca span{
+  background-image:linear-gradient(25deg,#17ffd3 0%,#23e3ee 95%);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.marca-rodape{font-size:26px; display:inline-block; margin-bottom:6px}
+.rodape-nota{font-size:14px; color:#4d546f}
+.creditos{font-size:13px; color:#4d546f; margin-top:26px; margin-bottom:0}
+
+/* --------------------------------------------- ajustes de seção -- */
+.section-md{padding-top:90px; padding-bottom:90px}
+.hero-projeto{padding-top:190px; padding-bottom:110px; position:relative; overflow:hidden}
+/* Modo enxuto: o fundo do hero vem dos próprios gradientes do template,
+   em vez do banner-bg.png que só existe no pacote completo do Dtox. */
+.hero-gradiente{
+  background:
+    radial-gradient(60% 70% at 78% 6%, rgba(23,255,211,.30) 0%, rgba(23,255,211,0) 62%),
+    radial-gradient(52% 62% at 96% 34%, rgba(211,252,113,.34) 0%, rgba(211,252,113,0) 60%),
+    radial-gradient(46% 60% at 6% 4%, rgba(35,227,238,.20) 0%, rgba(35,227,238,0) 60%),
+    linear-gradient(180deg,#f6fbff 0%,#ffffff 78%);
+}
+.hero-projeto h1{font-size:52px; line-height:1.2}
+.hero-projeto .destaque{
+  background-image:linear-gradient(25deg,#17ffd3 0%,#23e3ee 95%);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.selo{
+  display:inline-block; border:1px solid #dcebf4; border-radius:40px;
+  padding:6px 20px; font-size:13px; font-weight:500; color:#008dec;
+  letter-spacing:.08em; text-transform:uppercase; background:#fff;
+}
+.chapeu{font-size:13px; font-weight:600; letter-spacing:.12em;
+  text-transform:uppercase; color:#008dec; margin-bottom:10px}
+
+/* ------------------------------------------------- cartões ------ */
+.cartao{
+  background:#fff; border-radius:5px; padding:34px 30px;
+  box-shadow:0px 35px 46px 0px rgba(172,189,199,.28);
+  height:100%; transition:.2s ease;
+}
+.cartao:hover{transform:translateY(-6px)}
+.cartao h4{margin-bottom:12px}
+.cartao p{margin-bottom:0; font-size:16px; line-height:1.75}
+.cartao .ordem{
+  font-size:13px; font-weight:600; color:#008dec; letter-spacing:.1em;
+  display:block; margin-bottom:8px;
+}
+.cartao.destaque{border-top:4px solid transparent;
+  border-image:linear-gradient(25deg,#17ffd3 0%,#d3fc71 95%) 1}
+
+/* ------------------------------------------------ indicadores --- */
+.indicador{
+  background:#fff; border-radius:5px; padding:26px 24px; height:100%;
+  box-shadow:0px 35px 46px 0px rgba(172,189,199,.28);
+}
+.indicador .rotulo{font-size:12px; font-weight:600; letter-spacing:.1em;
+  text-transform:uppercase; color:#4d546f; margin-bottom:6px}
+.indicador .valor{font-size:36px; font-weight:600; color:#091337; line-height:1.1}
+.indicador .apoio{font-size:14px; color:#4d546f; margin-bottom:0}
+.indicador.acento .valor{color:#008dec}
+
+/* --------------------------------------------------- tabelas ---- */
+.tabela-projeto{background:#fff; border-radius:5px; overflow:hidden;
+  box-shadow:0px 35px 46px 0px rgba(172,189,199,.28)}
+.tabela-projeto table{margin-bottom:0; font-size:16px}
+.tabela-projeto thead th{
+  background:#091337; color:#fff; border:0; font-weight:500; font-size:14px;
+  letter-spacing:.04em; padding:16px 20px; white-space:nowrap;
+}
+.tabela-projeto td{border-top:1px solid #eef1f5; padding:14px 20px;
+  color:#4d546f; vertical-align:middle}
+.tabela-projeto tr.linha-destaque td{background:#f2f3f5; color:#091337; font-weight:500}
+.num{text-align:right; font-variant-numeric:tabular-nums}
+
+/* --------------------------------------------------- laudo ------ */
+.visor{background:#fff; border-radius:5px; padding:18px;
+  box-shadow:0px 35px 46px 0px rgba(172,189,199,.28)}
+.visor .quadro{position:relative; border-radius:5px; overflow:hidden; background:#091337}
+.visor .quadro.sem-imagem{background:#f2f3f5}
+.visor .quadro img{width:100%; display:block}
+.visor .vazio{padding:70px 20px; text-align:center; color:#4d546f}
+.visor .vazio i{font-size:52px; color:#dcebf4; display:block; margin-bottom:14px}
+
+.controle-limiar{margin-top:22px}
+.controle-limiar .cabecalho{display:flex; justify-content:space-between;
+  align-items:baseline; font-size:15px; color:#4d546f}
+.controle-limiar .cabecalho b{font-size:22px; color:#008dec; font-weight:600}
+input[type=range].faixa{
+  -webkit-appearance:none; appearance:none; width:100%; height:6px;
+  border-radius:5px; background:#f2f3f5; outline:none; margin-top:12px;
+}
+input[type=range].faixa::-webkit-slider-thumb{
+  -webkit-appearance:none; appearance:none; height:22px; width:22px;
+  border-radius:50%; cursor:pointer; border:0;
+  background-image:linear-gradient(25deg,#17ffd3 0%,#23e3ee 95%);
+  box-shadow:0px 8px 14px 0px rgba(35,227,238,.45);
+}
+input[type=range].faixa::-moz-range-thumb{
+  height:22px; width:22px; border-radius:50%; cursor:pointer; border:0;
+  background-image:linear-gradient(25deg,#17ffd3 0%,#23e3ee 95%);
+}
+
+.laudo-cabecalho{display:flex; justify-content:space-between; align-items:center;
+  flex-wrap:wrap; gap:10px; border-bottom:1px solid #eef1f5; padding-bottom:18px;
+  margin-bottom:18px}
+.etiqueta{display:inline-block; border-radius:40px; padding:5px 16px;
+  font-size:13px; font-weight:500}
+.etiqueta.positivo{background:#fdf0f6; color:#c4185f}
+.etiqueta.neutro{background:#eefbf3; color:#1c8a4d}
+.etiqueta.aviso{background:#fff6e8; color:#a86a00}
+
+.linha-campo{display:flex; justify-content:space-between; gap:16px;
+  padding:9px 0; border-bottom:1px dashed #eef1f5; font-size:16px}
+.linha-campo:last-child{border-bottom:0}
+.linha-campo .rot{color:#4d546f}
+.linha-campo .val{color:#091337; font-weight:500; font-variant-numeric:tabular-nums}
+
+.achado{border:1px solid #eef1f5; border-radius:5px; padding:20px 22px; margin-top:16px}
+.achado .topo{display:flex; align-items:center; gap:12px; margin-bottom:14px}
+.achado .cod{background:#008dec; color:#fff; border-radius:5px; padding:2px 10px;
+  font-size:13px; font-weight:500}
+.achado .met{display:flex; flex-wrap:wrap; gap:10px}
+.achado .met > div{background:#f2f3f5; border-radius:5px; padding:10px 14px; min-width:132px}
+.achado .met span{display:block; font-size:11px; letter-spacing:.08em;
+  text-transform:uppercase; color:#4d546f; margin-bottom:3px}
+.achado .met b{font-size:16px; color:#091337; font-weight:500;
+  font-variant-numeric:tabular-nums}
+.barra-estab{height:6px; border-radius:5px; background:#f2f3f5; overflow:hidden; margin-top:6px}
+.barra-estab i{display:block; height:6px;
+  background-image:linear-gradient(25deg,#17ffd3 0%,#23e3ee 95%)}
+
+/* ------------------------------------------------ formulários --- */
+.zona-envio{
+  border:2px dashed #dcebf4; border-radius:5px; background:#fff;
+  padding:42px 26px; text-align:center; transition:.2s ease; cursor:pointer;
+}
+.zona-envio:hover, .zona-envio.ativa{border-color:#23e3ee; background:#f7fdff}
+.zona-envio i{font-size:46px; color:#008dec; display:block; margin-bottom:14px}
+.zona-envio p{margin-bottom:0; color:#4d546f}
+.miniatura{width:72px; height:72px; object-fit:cover; border-radius:5px;
+  border:2px solid transparent; cursor:pointer; transition:.2s ease}
+.miniatura:hover, .miniatura.ativa{border-color:#23e3ee}
+
+/* --------------------------------------------------- avisos ----- */
+.aviso-legal{
+  background:#fff6e8; border-left:4px solid #f09000; border-radius:5px;
+  padding:20px 24px; color:#7a5200; font-size:15px; line-height:1.7;
+}
+.aviso-legal i{font-size:22px; color:#f09000; line-height:1.6}
+.aviso-legal code{background:#ffeccd; color:#7a5200; padding:1px 6px; border-radius:3px}
+.nota{background:#f2f3f5; border-radius:5px; padding:20px 24px; font-size:15px;
+  color:#4d546f; line-height:1.75}
+.nota strong{color:#091337}
+
+/* ------------------------------------------------ listas -------- */
+.lista-limites{list-style:none; padding-left:0; counter-reset:lim}
+.lista-limites li{counter-increment:lim; position:relative; padding-left:52px;
+  margin-bottom:18px; color:#4d546f}
+.lista-limites li::before{
+  content:counter(lim,decimal-leading-zero); position:absolute; left:0; top:2px;
+  width:36px; height:36px; line-height:36px; text-align:center; border-radius:5px;
+  background:#f2f3f5; color:#008dec; font-weight:600; font-size:14px;
+}
+.lista-limites li strong{color:#091337}
+
+/* -------------------------------------------------- figuras ----- */
+.figura{background:#fff; border-radius:5px; padding:20px;
+  box-shadow:0px 35px 46px 0px rgba(172,189,199,.28)}
+.figura img{width:100%; display:block; border-radius:3px}
+.figura .legenda{font-size:14px; color:#4d546f; margin:14px 4px 0}
+
+/* ------------------------------------------------ responsivo ---- */
+@media (max-width:991px){
+  .hero-projeto{padding-top:150px}
+  .hero-projeto h1{font-size:38px}
+  .btn{padding:13px 34px; font-size:16px}
+  .btn-lg{padding:14px 44px}
+}
